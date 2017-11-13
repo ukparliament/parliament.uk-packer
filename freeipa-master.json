@@ -27,18 +27,12 @@
         "inline": [
           "sleep 30",
           "sudo dnf -y update",
-          "sudo dnf install yum",
+          "sudo dnf -y install yum",
           "sudo dnf -y install freeipa-server",
           "sudo dnf -y install freeipa-server-dns",
           "sudo dnf -y install nano",
-          "sudo dnf -y install telnet",
+          "sudo dnf -y install telnet"
          ]
-       },
-       {
-         "type": "file",
-         "source": "~/.ssh/core_instances.pem",
-         "destination": "/home/ubuntu/.ssh/"
-      }
-     
+       }
    ]
 }
