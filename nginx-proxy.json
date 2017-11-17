@@ -29,11 +29,13 @@
         "sudo apt-get -y update",
         "sudo apt-get -y install nano",
         "sudo apt-get -y install nginx",
+        "sudo apt-get -y install python-minimal",
         "sudo ufw allow 'Nginx HTTP'",
         "sudo ufw allow 'Nginx HTTPS'",
         "sudo ufw allow 'OpenSSH'",
-        "sudo sed -i 's/ENABLED=no/ENABLED=yes/' /etc/ufw/ufw.conf"
-       ]
+        "sudo sed -i 's/ENABLED=no/ENABLED=yes/' /etc/ufw/ufw.conf",
+        "sudo echo 'IdentityFile ~/.ssh/core_instances.pem' >> /home/ubuntu/.ssh/config"
+        ]
     }
 ]
 }
