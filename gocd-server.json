@@ -18,52 +18,21 @@
       "owners": ["099720109477"],
       "most_recent": true
     },
-    "instance_type": "t2.nano",
+    "instance_type": "t2.medium",
     "ssh_username": "ubuntu",
-    "ami_name": "ansible-host-latest"
+    "ami_name": "gocd-server-latest"
   }],
     "provisioners": [{
       "type": "shell",
       "inline": [
         "sleep 30",
         "sudo apt-get -y update",
-        "sudo apt-get -y install software-properties-common",
-        "sudo apt-add-repository -y ppa:ansible/ansible",
-        "sudo apt-get -y update",
-        "sudo apt-get -y install ansible",
-        "sudo apt-get -y install git",
+        "sudo apt-get -y install python-minimal",
         "sudo apt-get -y install nano",
-        "sudo apt-get install -y python-pip python-dev build-essential",
-        "sudo pip install --upgrade pip",
-        "sudo pip install --upgrade virtualenv",
-        "sudo pip install boto"
+        "echo 'deb https://download.gocd.org /' | sudo tee /etc/apt/sources.list.d/gocd.list",
+        "curl https://download.gocd.org/GOCD-GPG-KEY.asc | sudo apt-key add -",
+        "sudo apt-get -y update",
+        "sudo apt-get -y install default-jre go-server go-agent apache2-utils"
        ]
-     },
-     {
-         "type": "file",
-         "source": "/Users/johnh/.ssh/core_instances.pem",
-         "destination": "/home/ubuntu/.ssh/"
-      },
-      {
-         "type": "file",
-         "source": "/Users/johnh/parliament/packer/ansible-files",
-         "destination": "/home/ubuntu/"
-      },
-      {
-         "type": "shell",
-         "inline": [
-         "sudo chmod 0400 /home/ubuntu/.ssh/core_instances.pem",
-         "sudo cp /home/ubuntu/ansible-files/hosts /etc/ansible/",
-         "sudo cp /home/ubuntu/ansible-files/ec2.ini /etc/ansible/",
-         "sudo chmod +x /etc/ansible/hosts",
-         "sudo rm -rf /home/ubuntu/ansible-files",
-         "sudo mkdir /home/ubuntu/ansible",
-         "sudo chown ubuntu:ubuntu /home/ubuntu/ansible",
-         "sudo ssh-agent bash",
-         "sudo ssh-add /home/ubuntu/.ssh/core-instances.pem"
-   
-         ]
-      }
-
-]
+     }]
 }
