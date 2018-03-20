@@ -27,12 +27,12 @@
     "provisioners": [
       {
         "type": "file",
-        "source": "/Users/johnh/parliament/packer/ansible-files/ansible.cfg",
+        "source": "ansible-files/ansible.cfg",
         "destination": "/home/ubuntu/ansible.cfg"
         },
         {
           "type": "file",
-          "source": "/Users/johnh/parliament/packer/ansible-files/ec2.ini",
+          "source": "ansible-files/ec2.ini",
           "destination": "/home/ubuntu/ec2.ini"
         },
         {
@@ -55,7 +55,7 @@
         "sudo chmod +x /etc/ansible/inventory/hosts",
         "sudo cp /home/ubuntu/ec2.ini /etc/ansible/inventory/",
         "sudo cp /home/ubuntu/ansible.cfg /etc/ansible/",
-        "ansible-galaxy install Datadog.datadog"
+        "sudo ansible-galaxy install Datadog.datadog"
 
       ]
      }
