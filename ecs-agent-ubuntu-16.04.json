@@ -58,9 +58,10 @@
       "destination": "/etc/ecs/ecs.config"
     },
     {
-      "type": "file",
-      "source": "ecs-files/80.init-ecs.cfg",
-      "destination": "/etc/cloud/cloud.cfg.d/80.init-ecs.cfg"
+      "type": "shell",
+      "inline": [
+        "sudo chmod 0755 /etc/ecs"
+      ]
     }
   ]
 }
