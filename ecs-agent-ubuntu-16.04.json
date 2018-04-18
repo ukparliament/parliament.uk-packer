@@ -58,10 +58,9 @@
       "destination": "/etc/ecs/ecs.config"
     },
     {
-      "type": "shell",
-      "inline": [
-        "sudo docker create --name ecs-agent --restart=always --volume=/var/run:/var/run --volume=/var/log/ecs/:/log --volume=/var/lib/ecs/data:/data --volume=/etc/ecs:/etc/ecs --net=host --env-file=/etc/ecs/ecs.config  amazon/amazon-ecs-agent:latest"
-      ]
+      "type": "file",
+      "source": "ecs-files/80.init-ecs.cfg",
+      "destination": "/etc/cloud/cloud.cfg.d/80.init-ecs.cfg"
     }
   ]
 }
