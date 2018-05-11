@@ -24,7 +24,7 @@
     },
     "instance_type": "t2.nano",
     "ssh_username": "ubuntu",
-    "ami_name": "logstsh-collector-latest"
+    "ami_name": "logstash-collector-latest"
   }],
     "provisioners": [{
       "type": "shell",
@@ -32,7 +32,7 @@
         "sleep 30",
         "sudo apt-get -y update",
         "sudo apt-get -y install nano",
-        "sudo apt-get -y install python-minimal"        
+        "sudo apt-get -y install python-minimal"
         ]
     }
 ]
