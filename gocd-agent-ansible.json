@@ -6,6 +6,10 @@
   },
   "builders": [{
     "type": "amazon-ebs",
+    "ami_block_device_mappings":[{
+      "device_name":"/dev/sda1",
+      "encrypted": true
+      }],
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "token":                    "{{user `aws_session_token`}}",
@@ -22,7 +26,7 @@
     },
     "instance_type": "t2.medium",
     "ssh_username": "ubuntu",
-    "ami_name": "gocd-agent-latest"
+    "ami_name": "gocd-agent-ansible-latest"
   }],
     "provisioners": [
       {
@@ -54,8 +58,7 @@
         "sudo mv ec2.py hosts",
         "sudo chmod +x /etc/ansible/inventory/hosts",
         "sudo cp /home/ubuntu/ec2.ini /etc/ansible/inventory/",
-        "sudo cp /home/ubuntu/ansible.cfg /etc/ansible/",
-        "sudo ansible-galaxy install Datadog.datadog"
+        "sudo cp /home/ubuntu/ansible.cfg /etc/ansible/"
 
       ]
      }
