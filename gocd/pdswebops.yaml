@@ -11,6 +11,7 @@ pipelines:
       mygit:
         git: https://github.com/ukparliament/parliament.uk-packer.git
         branch: development
+        auto_update: true
     stages:
       - build:
         clean_workspace: true
