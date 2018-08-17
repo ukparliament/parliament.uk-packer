@@ -10,7 +10,7 @@ pipelines:
     materials:
       mygit:
         git: https://github.com/ukparliament/parliament.uk-packer.git
-        branch: development
+        branch: master
         auto_update: true
     stages:
       - build:
