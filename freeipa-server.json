@@ -24,7 +24,7 @@
     },
     "instance_type": "m4.large",
     "ssh_username": "fedora",
-    "ami_name": "freeipa-master-latest"
+    "ami_name": "freeipa-server-latest"
   }],
     "provisioners": [
       {

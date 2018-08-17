@@ -16,15 +16,15 @@
     "source_ami_filter": {
       "filters": {
       "virtualization-type": "hvm",
-      "name": "Fedora-Cloud-Base-27-1.6.x86_64-eu-west-1-HVM-gp2-0",
+      "name": "Fedora-Cloud-Base-25-2017*",
       "root-device-type": "ebs"
       },
       "owners": ["125523088429"],
       "most_recent": true
     },
-    "instance_type": "m4.large",
+    "instance_type": "t2.micro",
     "ssh_username": "fedora",
-    "ami_name": "freeipa-master-latest"
+    "ami_name": "freeipa-saml-latest"
   }],
     "provisioners": [
       {
@@ -33,10 +33,11 @@
           "sleep 30",
           "sudo dnf -y update",
           "sudo dnf -y install yum",
-          "sudo dnf -y install freeipa-server",
-          "sudo dnf -y install freeipa-server-dns",
           "sudo dnf -y install nano",
-          "sudo dnf -y install telnet"
+          "sudo dnf -y install telnet",
+          "sudo dnf -y install freeipa-client",
+          "sudo dnf -y install ipsilon-*",
+          "sudo dnf -y install libselinux-python"
          ]
        }
    ]
