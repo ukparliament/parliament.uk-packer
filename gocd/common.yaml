@@ -1,5 +1,5 @@
 pipelines:
-  ecs-agent-ubuntu:
+  ecs-agent-ubuntu-16.04:
     group: Packer
     label_template: "${COUNT}"
     materials:
