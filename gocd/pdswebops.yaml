@@ -1,8 +1,3 @@
-environments:
-  Ansible:
-    pipelines:
-      - ecs-agent-ubuntu-16.04
-
 pipelines:
   ecs-agent-ubuntu-16.04:
     group: Packer
@@ -14,12 +9,16 @@ pipelines:
         auto_update: true
     stages:
       - build:
-        clean_workspace: true
-        jobs:
-          default:
-            tasks:
-              - exec:
-                command: packer
-                arguments:
-                  - build
-                  - ecs-agent-ubuntu-16.04.json
+          clean_workspace: true
+          jobs:
+            default:
+              tasks:
+                - exec:
+                    command: packer
+                    arguments:
+                      - build
+                      - ecs-agent-ubuntu-16.04.json
+environments:
+  Ansible:
+    pipelines:
+      - ecs-agent-ubuntu-16.04
