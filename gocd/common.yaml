@@ -5,7 +5,7 @@ pipelines:
     materials:
       mygit:
         git: https://github.com/ukparliament/parliament.uk-packer.git
-        branch: development
+        branch: master
     stages:
       - build:
           clean_workspace: true
