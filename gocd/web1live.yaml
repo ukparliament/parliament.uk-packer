@@ -13,8 +13,8 @@ pipelines:
              git: https://github.com/ukparliament/parliament.uk-packer.git
              branch: master
              auto_update: true
-         
-           only_on_changes: no
+
+           
          stages:
            - build:
                clean_workspace: true
