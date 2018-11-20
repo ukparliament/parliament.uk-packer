@@ -1,0 +1,88 @@
+{
+  "variables": {
+
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "encrypt_boot": true,
+    "ami_block_device_mappings":[{
+      "device_name":"/dev/sda1"
+      }],
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "eu-west-1",
+    "force_deregister": true,
+    "source_ami_filter": {
+      "filters": {
+      "virtualization-type": "hvm",
+      "name": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*",
+      "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "t2.nano",
+    "ssh_username": "ubuntu",
+    "ami_name": "bastion-host-latest"
+  }],
+    "provisioners": [
+      {
+        "type": "file",
+        "source": "openvpn-files/",
+        "destination": "/tmp"
+      },
+      {
+      "type": "shell",
+      "inline_shebang": "/bin/bash -e",
+      "environment_vars": [
+        "DEBIAN_FRONTEND=noninteractive"
+      ],
+      "inline": [
+        "sudo mkdir /opt/openvpn-files",
+        "sudo cp /tmp/add-client.sh /opt/openvpn-files",
+        "sudo cp  /tmp/bootstrap.sh /opt/openvpn-files",
+        "sudo cp  /tmp/build-key-server.sh /opt/openvpn-files",
+        "sudo cp  /tmp/build-key.sh /opt/openvpn-files",
+        "sudo cp  /tmp/generate-client-certificate.sh /opt/openvpn-files",
+        "sudo cp  /tmp/interfaces.sh /opt/openvpn-files",
+        "sudo cp  /tmp/make-config.sh /opt/openvpn-files",
+        "sudo cp  /tmp/openvpn.sh /opt/openvpn-files",
+        "sudo cp  /tmp/revoke-full.sh /opt/openvpn-files",
+        "sudo cp  /tmp/ubuntu.sh /opt/openvpn-files",
+        "sudo cp /tmp/config.sh /opt/openvpn-files",
+        "sudo chown root:root /opt/openvpn-files/add-client.sh",
+        "sudo chmod 0755 /opt/openvpn-files/add-client.sh",
+        "sudo chown root:root /opt/openvpn-files/bootstrap.sh",
+        "sudo chmod 0755 /opt/openvpn-files/bootstrap.sh",
+        "sudo chown root:root /opt/openvpn-files/build-key-server.sh",
+        "sudo chmod 0755 /opt/openvpn-files/build-key-server.sh",
+        "sudo chown root:root /opt/openvpn-files/build-key.sh",
+        "sudo chmod 0755 /opt/openvpn-files/build-key.sh",
+        "sudo chown root:root /opt/openvpn-files/config.sh",
+        "sudo chmod 0755 /opt/openvpn-files/config.sh",
+        "sudo chown root:root /opt/openvpn-files/generate-client-certificate.sh",
+        "sudo chmod 0755 /opt/openvpn-files/generate-client-certificate.sh",
+        "sudo chown root:root /opt/openvpn-files/interfaces.sh",
+        "sudo chmod 0755 /opt/openvpn-files/interfaces.sh",
+        "sudo chown root:root /opt/openvpn-files/make-config.sh",
+        "sudo chmod 0755 /opt/openvpn-files/make-config.sh",
+        "sudo chown root:root /opt/openvpn-files/openvpn.sh",
+        "sudo chmod 0755 /opt/openvpn-files/openvpn.sh",
+        "sudo chown root:root /opt/openvpn-files/revoke-full.sh",
+        "sudo chmod 0755 /opt/openvpn-files/revoke-full.sh",
+        "sudo chown root:root /opt/openvpn-files/ubuntu.sh",
+        "sudo chmod 0755 /opt/openvpn-files/ubuntu.sh",
+        "echo ===== Install credstash =====",
+        "sudo apt -y update",
+        "sudo apt -y install python-pip python-dev",
+        "sudo apt -y install build-essential libssl-dev libffi-dev python-dev",
+        "pip install credstash",
+        "echo ===== Install openvpn =====",
+        "sudo /opt/openvpn-files/openvpn.sh"
+
+
+
+        ]
+    }
+]
+}
