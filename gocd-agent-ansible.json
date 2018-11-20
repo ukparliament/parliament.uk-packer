@@ -8,12 +8,12 @@
     "type": "amazon-ebs",
     "ami_block_device_mappings":[{
       "device_name":"/dev/sda1",
-      "encrypted": true
+      "encrypted": false
       }],
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "token":                    "{{user `aws_session_token`}}",
-    "region": "eu-west-1",
+    "region": "eu-west-2",
     "force_deregister": true,
     "source_ami_filter": {
       "filters": {
@@ -45,8 +45,8 @@
         "sleep 30",
         "echo 'deb https://download.gocd.org /' | sudo tee /etc/apt/sources.list.d/gocd.list",
         "curl https://download.gocd.org/GOCD-GPG-KEY.asc | sudo apt-key add -",
-        "sudo apt-get -y update",
         "sudo apt-add-repository ppa:ansible/ansible",
+        "sudo apt-get -y update",
         "sudo apt-get -y install nano python-minimal default-jre go-agent apache2-utils python-pip python-passlib python-setuptools software-properties-common ansible",
         "sudo pip install bcrypt",
         "sudo pip install credstash",
