@@ -6,10 +6,10 @@
   "builders": [
     {
       "type": "amazon-ebs",
+      "encrypt_boot": true,
       "ami_block_device_mappings": [
         {
-          "device_name": "/dev/sda1",
-          "encrypted": true
+          "device_name": "/dev/sda1"
         }
       ],
       "access_key": "{{user `aws_access_key`}}",
