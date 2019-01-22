@@ -1,0 +1,91 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+    "builders":[{
+        "type": "docker",
+        "image": "jehudson/gocd-agent-ubuntu-16.04",
+        "export_path": "image.tar"
+    }],
+    "provisioners":[
+        {
+        "type": "file",
+        "source": "ansible-files/ansible.cfg",
+        "destination": "/tmp/ansible.cfg"
+        },
+        {
+          "type": "file",
+          "source": "ansible-files/ec2.ini",
+          "destination": "/tmp/ec2.ini"
+        },
+        {
+            "type": "shell",
+            "inline": [
+              "apt-get -y install apt-transport-https",
+              "echo 'deb https://download.gocd.org /' | tee /etc/apt/sources.list.d/gocd.list",
+              "curl https://download.gocd.org/GOCD-GPG-KEY.asc | apt-key add -",
+              "apt-get -y install software-properties-common",
+              "apt-add-repository ppa:ansible/ansible",
+              "apt-get -y update",
+              "apt-get -y install wget nano python-minimal default-jre go-agent apache2-utils python-pip python-passlib python-setuptools software-properties-common ansible",
+              "pip install bcrypt",
+              "pip install credstash",
+              "pip install boto",
+              "mkdir /etc/ansible/inventory",
+              "chown root:root /etc/ansible/inventory",
+              "cd /etc/ansible/inventory",
+              "wget https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py",
+              "mv ec2.py hosts",
+              "chmod +x /etc/ansible/inventory/hosts",
+              "cp /tmp/ec2.ini /etc/ansible/inventory/",
+              "cp /tmp/ansible.cfg /etc/ansible/",
+              "apt-add-repository ppa:ansible/ansible",
+              "apt-get -y update",
+              "apt-get -y install nano python-minimal default-jre go-agent apache2-utils python-pip python-passlib python-setuptools software-properties-common ansible",
+              "pip install bcrypt",
+              "pip install credstash",
+              "pip install boto",
+              "chown root:root /etc/ansible/inventory",
+              "cd /etc/ansible/inventory",
+              "wget https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py",
+              "mv ec2.py hosts",
+              "chmod +x /etc/ansible/inventory/hosts",
+              "cp /tmp/ec2.ini /etc/ansible/inventory/",
+              "cp /tmp/ansible.cfg /etc/ansible/",
+              "credstash -r eu-west-1 get ssh/core-instances > /home/ubuntu/core_instances.pem",
+              "credstash -r eu-west-1 get ssh/core-bastion   > /home/ubuntu/core-bastion.pem",
+              "credstash -r eu-west-1 get ssh/ecs-bastion > /home/ubuntu/ecs-bastion.pem",
+              "credstash -r eu-west-1 get ssh/ecs-instances > /home/ubuntu/ecs-instances.pem",
+              "credstash -r eu-west-1 get ssh/deployer_id_rsa > /home/ubuntu/id_rsa",
+              "mkdir /var/go/.ssh",
+              "chown go:go /var/go/.ssh",
+              "touch /var/go/.ssh/config",
+              "chown go:go /var/go/.ssh/config",
+              "mv /home/ubuntu/core_instances.pem /var/go/.ssh/",
+              "mv /home/ubuntu/core-bastion.pem /var/go/.ssh/",
+              "mv /home/ubuntu/ecs-bastion.pem /var/go/.ssh/",
+              "mv /home/ubuntu/ecs-instances.pem /var/go/.ssh/",
+              "mv /home/ubuntu/id_rsa /var/go/.ssh/",
+              "chown -R go:go /var/go/.ssh/",
+              "chmod -R 0600 /var/go/.ssh/",
+              "chmod 0700 /var/go/.ssh",
+              "bash -c "echo 'IdentityFile=/var/go/.ssh/core_instances.pem' > /var/go/.ssh/config",
+              "bash -c "echo 'IdentityFile=/var/go/.ssh/core-bastion.pem' >> /var/go/.ssh/config",
+sudo bash -c "echo 'IdentityFile=/var/go/.ssh/ecs-bastion.pem' >> /var/go/.ssh/config"
+sudo bash -c "echo 'IdentityFile=/var/go/.ssh/id_rsa' >> /var/go/.ssh/config"
+sudo bash -c "echo 'IdentityFile=/var/go/.ssh/ecs-instances.pem' >> /var/go/.ssh/config"
+            ]
+        }
+    ],
+    "post-processors": [
+    [
+      {
+        "type": "docker-import",
+        "repository": "jehudson/packer-gocd-agent-ansible",
+        "tag": "latest"
+      },
+      "docker-push"
+    ]
+  ]
+}
